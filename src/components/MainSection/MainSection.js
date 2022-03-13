@@ -2,16 +2,19 @@ import React from 'react';
 import { useContextApp } from '../../context/AppContext';
 
 const MainSection = () => {
-   const { user, userRepo, isDisabled, setIsClicked } = useContextApp();
+   const { user, userRepo, isDisabled, setIsClicked, error } = useContextApp();
+
+   const repoAlert = userRepo && userRepo.length === 0 && (
+      <p> Repository is empty</p>
+   );
    return (
-      <main>
-         {user && (
+      <section>
+         {user && !error && (
             <div>
                <h1>{user.login}</h1>
                <p>{user.id}</p>
                <button
                   onClick={() => setIsClicked(true)}
-                  disabled={isDisabled}
                   className={`${
                      isDisabled ? 'bg-gray-600' : 'bg-green-600'
                   } text-white px-4 py-2 rounded-sm`}
@@ -25,9 +28,10 @@ const MainSection = () => {
                         <p>{repo.description}</p>
                      </div>
                   ))}
+               {repoAlert}
             </div>
          )}
-      </main>
+      </section>
    );
 };
 

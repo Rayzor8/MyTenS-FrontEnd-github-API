@@ -1,16 +1,18 @@
-import Form from './components/Form';
-import MainSection from './components/MainSection';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import AppContext from './context/AppContext';
+import Homepage from './pages/Homepage';
+import Repository from './pages/Repository';
 
 function App() {
-
    return (
       <AppContext>
-        <div className="App p-10">
-           <Form />
-           <MainSection/>
-        </div>
+         <BrowserRouter>
+            <Routes>
+               <Route path="/" element={<Homepage />}></Route>
+               <Route path="/repository" element={<Repository />}></Route>
+            </Routes>
+         </BrowserRouter>
       </AppContext>
    );
 }

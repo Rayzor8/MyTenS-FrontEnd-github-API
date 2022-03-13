@@ -13,13 +13,16 @@ const AppContext = ({ children }) => {
    const [userRepo, setUserRepo] = useState(null);
    const [userInput, setUserInput] = useState('');
    const [isClicked, setIsClicked] = useState(false);
-   const [isDisabled, setIsDisabled] = useState(false);
+   const [error,setError] = useState(false)
 
    useEffect(() => {
       if (userInput) {
          fetch(API_ENDPOINT + userInput)
             .then((res) => res.json())
             .then((data) => {
+               if(data.message){
+                  setError(true)
+               }
                setUser(data);
             });
       }
@@ -29,9 +32,8 @@ const AppContext = ({ children }) => {
       if (user && isClicked) {
          fetch(user.repos_url)
             .then((res) => res.json())
-            .then((data) => {
+            .then((data) => {              
                setUserRepo(data);
-               setIsDisabled(true);
             });
       }
    }, [user, isClicked]);
@@ -41,7 +43,7 @@ const AppContext = ({ children }) => {
 
    return (
       <contextApp.Provider
-         value={{ user, userRepo, isDisabled, setUserInput, setIsClicked }}
+         value={{ user, userRepo, setUserInput, setIsClicked ,error}}
       >
          {children}
       </contextApp.Provider>
