@@ -14,21 +14,25 @@ const AppContext = ({ children }) => {
    const [userInput, setUserInput] = useState('');
    const [isClicked, setIsClicked] = useState(false);
    const [error, setError] = useState(null);
-
+   const [isLoading, setIsloading] = useState(false);
+   
    // fetch user data
    useEffect(() => {
       const fetchUser = async () => {
+         setError(null);
          if (userInput) {
             try {
+               setIsloading(true);
                const response = await fetch(API_ENDPOINT + userInput);
                if (!response.ok) {
                   throw new Error('User Not Found');
                }
                const data = await response.json();
                setUser(data);
-               setError(null);
+               setIsloading(false);
             } catch (err) {
                setError(err.message);
+               setIsloading(false);
             }
          }
       };
@@ -40,17 +44,26 @@ const AppContext = ({ children }) => {
    useEffect(() => {
       const fetchRepo = async () => {
          if (user && isClicked) {
+            setIsloading(true);
             const response = await fetch(user.repos_url);
             const data = await response.json();
             setUserRepo(data);
          }
+         setIsloading(false);
       };
       fetchRepo();
    }, [user, isClicked]);
 
    return (
       <contextApp.Provider
-         value={{ user, userRepo, setUserInput, setIsClicked, error }}
+         value={{
+            user,
+            userRepo,
+            setUserInput,
+            setIsClicked,
+            error,
+            isLoading,
+         }}
       >
          {children}
       </contextApp.Provider>

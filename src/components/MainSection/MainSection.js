@@ -1,19 +1,26 @@
 import React from 'react';
 import { useContextApp } from '../../context/AppContext';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 
 const MainSection = () => {
-   const { user, setIsClicked, error } = useContextApp();
+   const { user, setIsClicked, error, isLoading } = useContextApp();
+
+   if (isLoading) return <Loader />;
 
    return (
       <>
          {user && !error && (
             <div className="bg-gray-900 my-4 rounded-md flex flex-col text-white gap-2 overflow-hidden shadow-xl">
-               <img src={user.avatar_url} alt="user" className="w-full md:h-80" />
-               <div className='p-4 flex flex-col gap-2'>
-                  <i className='text-xs'>ID : {user.id}</i>
-                  <h1 className='text-2xl font-bold'>{user.login}</h1>
-                  <p className='text-xl'>{user.bio}</p>
+               <img
+                  src={user.avatar_url}
+                  alt="user"
+                  className="w-full md:h-80"
+               />
+               <div className="p-4 flex flex-col gap-2">
+                  <i className="text-xs">ID : {user.id}</i>
+                  <h1 className="text-2xl font-bold">{user.login}</h1>
+                  <p className="text-xl">{user.bio}</p>
                   <Link
                      to="/repository"
                      onClick={() => setIsClicked(true)}

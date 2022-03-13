@@ -7,6 +7,7 @@ const Form = () => {
    const [validating, setValidating] = useState(false);
 
    const handleSubmit = (e) => {
+      setValidating(false);
       e.preventDefault();
       const enteredInput = userRef.current.value;
       if (enteredInput.trim().length < 1) {
@@ -14,7 +15,6 @@ const Form = () => {
          return;
       }
       setUserInput(enteredInput);
-      setValidating(false);
    };
 
    return (
