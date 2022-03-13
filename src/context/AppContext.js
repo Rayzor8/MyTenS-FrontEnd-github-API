@@ -13,37 +13,44 @@ const AppContext = ({ children }) => {
    const [userRepo, setUserRepo] = useState(null);
    const [userInput, setUserInput] = useState('');
    const [isClicked, setIsClicked] = useState(false);
-   const [error,setError] = useState(false)
+   const [error, setError] = useState(null);
 
+   // fetch user data
    useEffect(() => {
-      if (userInput) {
-         fetch(API_ENDPOINT + userInput)
-            .then((res) => res.json())
-            .then((data) => {
-               if(data.message){
-                  setError(true)
+      const fetchUser = async () => {
+         if (userInput) {
+            try {
+               const response = await fetch(API_ENDPOINT + userInput);
+               if (!response.ok) {
+                  throw new Error('User Not Found');
                }
+               const data = await response.json();
                setUser(data);
-            });
-      }
+               setError(null);
+            } catch (err) {
+               setError(err.message);
+            }
+         }
+      };
+
+      fetchUser();
    }, [userInput]);
 
+   // fetch user repository
    useEffect(() => {
-      if (user && isClicked) {
-         fetch(user.repos_url)
-            .then((res) => res.json())
-            .then((data) => {              
-               setUserRepo(data);
-            });
-      }
+      const fetchRepo = async () => {
+         if (user && isClicked) {
+            const response = await fetch(user.repos_url);
+            const data = await response.json();
+            setUserRepo(data);
+         }
+      };
+      fetchRepo();
    }, [user, isClicked]);
-
-   console.log(user);
-   console.log(userRepo);
 
    return (
       <contextApp.Provider
-         value={{ user, userRepo, setUserInput, setIsClicked ,error}}
+         value={{ user, userRepo, setUserInput, setIsClicked, error }}
       >
          {children}
       </contextApp.Provider>

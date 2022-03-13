@@ -5,6 +5,7 @@ const Form = () => {
    const userRef = useRef(null);
    const { setUserInput, error } = useContextApp();
    const [validating, setValidating] = useState(false);
+
    const handleSubmit = (e) => {
       e.preventDefault();
       const enteredInput = userRef.current.value;
@@ -17,19 +18,19 @@ const Form = () => {
    };
 
    return (
-      <form className="max-w-4xl flex gap-2 flex-col" onSubmit={handleSubmit}>
+      <form className="flex gap-2 flex-col" onSubmit={handleSubmit}>
          <div className="flex justify-start items-start gap-2">
             <label htmlFor="inputSearch"></label>
             <input
                type="search"
                placeholder="Search here.."
-               className="px-4 py-2 placeholder-gray-600 text-gray-800 relative  bg-white text-sm border border-gray-500 shadow outline-none focus:outline-none focus:ring w-96 max-full  rounded-md"
+               className="px-4 py-2 placeholder-gray-600 text-gray-800 relative  bg-white text-sm border border-gray-500 shadow outline-none focus:outline-none focus:ring  rounded-md md:w-80"
                ref={userRef}
                id="inputSearch"
             />
             <button
                type="submit"
-               className="bg-blue-600 text-white px-4 py-2 rounded-md block"
+               className="bg-gray-900 text-white px-4 py-2 rounded-md block"
             >
                Search
             </button>
@@ -39,11 +40,7 @@ const Form = () => {
                Please fill out this input field
             </span>
          )}
-         {error && (
-            <span className="text-red-400 italic">
-               User Not found
-            </span>
-         )}
+         {error && <span className="text-red-500 italic">{error}</span>}
       </form>
    );
 };

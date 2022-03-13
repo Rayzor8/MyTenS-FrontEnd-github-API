@@ -1,0 +1,8 @@
+.container {
+   @apply px-10;
+}
+
+button,
+a {
+   @apply font-mono font-bold;
+}
