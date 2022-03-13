@@ -15,7 +15,7 @@ const AppContext = ({ children }) => {
    const [isClicked, setIsClicked] = useState(false);
    const [error, setError] = useState(null);
    const [isLoading, setIsloading] = useState(false);
-   
+   console.log(error);
    // fetch user data
    useEffect(() => {
       const fetchUser = async () => {
@@ -62,6 +62,7 @@ const AppContext = ({ children }) => {
             setUserInput,
             setIsClicked,
             error,
+            setError,
             isLoading,
          }}
       >

@@ -3,10 +3,11 @@ import { useContextApp } from '../../context/AppContext';
 
 const Form = () => {
    const userRef = useRef(null);
-   const { setUserInput, error } = useContextApp();
+   const { setUserInput, error, setError } = useContextApp();
    const [validating, setValidating] = useState(false);
 
    const handleSubmit = (e) => {
+      setError(null);
       setValidating(false);
       e.preventDefault();
       const enteredInput = userRef.current.value;

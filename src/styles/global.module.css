@@ -1,5 +1,5 @@
 .container {
-   @apply px-10;
+   @apply px-10 my-2 font-mono;
 }
 
 button,
