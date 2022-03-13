@@ -8,13 +8,17 @@ const Repository = () => {
    const { userRepo, isLoading } = useContextApp();
 
    if (isLoading) return <Loader />;
-   if (!userRepo) return <p> Repository is empty</p>;
+   if (userRepo && userRepo.length < 1) return <p className="text-center my-4 font-bold font-mono text-2xl"> Repository is empty</p>;
 
    return (
-      <main className={styles.container}>
-         <h1 className="text-center text-2xl font-bold">List Repository</h1>
-         {userRepo &&
-            userRepo.map((repo) => <RepoContent key={repo.id} {...repo} />)}
+      <main className={`${styles.container} pt-4`}>
+         <h1 className="text-center text-2xl font-bold mb-6">
+            List Repository
+         </h1>
+         <div className="grid gap-4  grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+            {userRepo &&
+               userRepo.map((repo) => <RepoContent key={repo.id} {...repo} />)}
+         </div>
       </main>
    );
 };

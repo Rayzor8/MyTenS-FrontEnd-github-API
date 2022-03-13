@@ -15,8 +15,7 @@ const AppContext = ({ children }) => {
    const [isClicked, setIsClicked] = useState(false);
    const [error, setError] = useState(null);
    const [isLoading, setIsloading] = useState(false);
-   console.log(error);
-   // fetch user data
+
    useEffect(() => {
       const fetchUser = async () => {
          setError(null);
@@ -28,7 +27,14 @@ const AppContext = ({ children }) => {
                   throw new Error('User Not Found');
                }
                const data = await response.json();
-               setUser(data);
+               const extractData = {
+                  id: data.id,
+                  login: data.login,
+                  image: data.avatar_url,
+                  bio: data.bio,
+                  repoUrl: data.repos_url,
+               };
+               setUser(extractData);
                setIsloading(false);
             } catch (err) {
                setError(err.message);
@@ -36,8 +42,7 @@ const AppContext = ({ children }) => {
             }
          }
       };
-
-      fetchUser();
+      fetchUser()
    }, [userInput]);
 
    // fetch user repository
@@ -45,7 +50,7 @@ const AppContext = ({ children }) => {
       const fetchRepo = async () => {
          if (user && isClicked) {
             setIsloading(true);
-            const response = await fetch(user.repos_url);
+            const response = await fetch(user.repoUrl);
             const data = await response.json();
             setUserRepo(data);
          }

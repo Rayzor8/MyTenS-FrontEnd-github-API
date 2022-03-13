@@ -31,7 +31,7 @@ const Form = () => {
             />
             <button
                type="submit"
-               className="bg-gray-900 text-white px-4 py-2 rounded-md block"
+               className="bg-gray-900 text-white px-4 py-2 rounded-md block hover:text-yellow-200"
             >
                Search
             </button>
